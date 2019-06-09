@@ -1,0 +1,101 @@
+import styles from './document.module.css'
+
+<div className={styles["Welcome"]}>
+
+## Motivation
+1. I wanted to create a website for [Olivia Goldberg](https://www.linkedin.com/in/olivia-goldberg-34292b17a/) to display her pottery.
+2. Everything had to run for free.
+3. Needed a process that allowed her to manage the photos herself, AKA no developer help.
+
+React + Flickr Albums + Github pages = [her free website!](https://ogoldberg24.github.io/pottery_site/#/pottery_site/)
+
+## Getting started on flickr.
+1. Create an account on flickr.com
+2. Obtain your an API key by creating an app in the app garden.
+3. Find your user_id by finding the `rest` requests in within the network tab (make sure you are logged in).
+
+## Create react app + github pages. 
+1. Install the Github Pages npm package with `npm install gh-pages`
+2. Update your package.json to contain these three keys in `scripts`
+```js
+    "build": "react-scripts build && cp build/index.html",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+```
+3. Deploy your app to github pages with `npm run deploy`
+
+`NOTE: you cannot deploy from your git account to someone else's github pages! 
+Make sure you log in to your end user's account or deployment will fail silently`
+
+## Set a proxy so you can reach the Flickr API
+You can deploy [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) with a proxy in your package.json.
+Add this key to make API requests to flickr.
+```js
+  "proxy": "https://api.flickr.com",
+```
+
+
+## Get the associated photos for a page via the Flickr Rest API
+I found the `photoset_ids` in the networks tab on the flickr website. 
+If you want to programatically find your `photoset_ids` use 
+`https://api.flickr.com/services/rest/?method=flickr.photosets.getList` the same way I've used getPhotos below with the fetch API.
+
+```js
+class Planters extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      photoUrls: [],
+    };
+  }
+
+  componentDidMount() {
+    const api_key = "YOUR API KEY"
+    const photoset_id = "YOUR ALBUM ID"
+    const user_id = "YOUR USER ID"
+    fetch(
+      `https://api.flickr.com/services/rest/
+        ?method=flickr.photosets.getPhotos
+        &api_key=${api_key}
+        &photoset_id=${photoset_id}
+        &user_id=${user_id}
+        &format=json&nojsoncallback=1`,
+    ) // put the above on the same line (New lined for viewers)
+    .then(response => response.json())
+    .then(data => data.photoset.photo.map(
+      photoObj =>
+        `https://live.staticflickr.com/
+          ${photoObj.server}/${photoObj.id}_${photoObj.secret}.jpg`
+      ))
+    .then(data => this.setState({photoUrls: data}))
+  }
+  ...
+}
+```
+
+Now render it to your photo load mapper. 
+```js 
+  render() {
+    const gallery_obj = []
+    this.state.photoUrls.map(
+      url => {
+        let obj = {
+          src: url,
+          thumbnail: url,
+          thumbnailWidth: 1000,
+          thumbnailHeight: 1000,
+        }
+        return gallery_obj.push(obj)
+      }
+    )
+  ...
+  }
+```
+
+## Conclusion
+[Clone me](https://github.com/ogoldberg24/pottery_site) to jumpstart your own project!
+
+
+
+</div>

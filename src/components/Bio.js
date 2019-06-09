@@ -15,7 +15,7 @@ function Bio(props) {
     `}>
       <img src={photoURL} alt="Me" />
       <p>
-        Machine Learning Engineer. Enjoys Python & JS
+        Software Engineer. Enjoys writing AI applications with Python + JS
       </p>
     </div>
   )
