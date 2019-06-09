@@ -4,7 +4,7 @@ export default {
   title: "Patrick Kelly's Blog",
 
   author: "Patrick Kelly",
-  description: "A clone of Dan Abramov's overreacted.io using create-react-app-mdx and Navi",
+  description: "A software blog.",
 
   // The number of posts to a page on the site index.
   indexPageSize: 10,
