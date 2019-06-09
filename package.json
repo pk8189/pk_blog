@@ -1,6 +1,7 @@
 {
   "name": "pk_blog",
   "version": "1.0.0",
+  "homepage": "https://pk8189.github.io/pk_blog",
   "private": true,
   "dependencies": {
     "blueimp-md5": "^2.3.0",
