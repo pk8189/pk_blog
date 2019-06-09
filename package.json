@@ -1,7 +1,6 @@
 {
   "name": "pk_blog",
   "version": "1.0.0",
-  "homepage": "https://pk8189.github.io/pk_blog",
   "private": true,
   "dependencies": {
     "blueimp-md5": "^2.3.0",
@@ -22,7 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && navi-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "navi-scripts serve",
