@@ -5,27 +5,27 @@ import styles from './document.module.css'
 ## Motivation
 1. I wanted to create a website for a local potter to display her work.
 2. Everything had to run for free.
-3. Needed a process that allowed her to manage the photos herself, AKA no developer help.
+3. Needed a process that allowed her to manage the photos herself, without developer help.
 
 React + Flickr Albums + Github pages = [her free website!](https://ogoldberg24.github.io/pottery_site/#/pottery_site/)
 
 ## Getting started on flickr.
-1. Create an account on flickr.com
-2. Obtain your an API key by creating an app in the app garden.
-3. Find your user_id by finding the `rest` requests in within the network tab (make sure you are logged in).
+1. Create an account on flickr.com.
+2. Obtain an API key by creating an app in the app garden.
+3. Find your user_id by finding the rest requests in the network tab (make sure you are logged in).
 
 ## Create react app + github pages. 
-1. Install the Github Pages npm package with `npm install gh-pages`
-2. Update your package.json to contain these three keys in `scripts`
+1. Install the Github Pages npm package with `npm install gh-pages`.
+2. Update your package.json to contain these three keys in `scripts`.
 ```js
     "build": "react-scripts build && cp build/index.html",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
 ```
-3. Deploy your app to github pages with `npm run deploy`
+3. Deploy your app to github pages with `npm run deploy`.
 
 `NOTE: you cannot deploy from your git account to someone else's github pages! 
-Make sure you log in to your end user's account or deployment will fail silently`
+Make sure you log in to your end user's account or deployment will fail silently.`
 
 ## Set a proxy so you can reach the Flickr API
 You can deploy [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) with a proxy in your package.json.
@@ -36,7 +36,7 @@ Add this key to make API requests to flickr.
 
 
 ## Get the associated photos for a page via the Flickr Rest API
-I found the `photoset_ids` in the networks tab on the flickr website. 
+I found the `photoset_ids` in the Network tab on the flickr website. 
 If you want to programatically find your `photoset_ids` use 
 `https://api.flickr.com/services/rest/?method=flickr.photosets.getList` the same way I've used getPhotos below with the fetch API.
 
