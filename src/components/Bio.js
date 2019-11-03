@@ -1,21 +1,17 @@
 import React from 'react'
 import styles from './Bio.module.css'
-import { getGravatarURL } from '../utils/getGravatarURL'
+import cbf from './cbf.jpeg'
 
 function Bio(props) {
-  let photoURL = getGravatarURL({
-    email: "pmkelly4444@gmail.com",
-    size: 56,
-  })
 
   return (
     <div className={`
       ${styles.Bio}
       ${props.className || ''}
     `}>
-      <img src={photoURL} alt="Me" />
+      <img src={cbf} alt="cbf" />
       <p>
-        Software Engineer. Enjoys writing AI applications with Python + JS.
+        Quality articles about software, sustainability, and life hacks.
       </p>
     </div>
   )
