@@ -1,13 +1,14 @@
 import styles from './document.module.css'
+import benchmark_chart from './benchmark_chart.svg';;
 
 <div className={styles["Welcome"]}>
 
 ## Filtering lists in python
 
 Python engineers are often faced with the task of filtering data. 
-Data filtration often includes pulling data from a third-party resource to perform analysis, but
+Data filtration often is needed when pulling data from a third-party resource to perform analysis, but
 third-party APIs don't always allow for a query specific enough to fit the engineer's needs.
-If this is the case, filtering the return value is necessary before moving the data any further.
+If this is the case, filtering the return value of the API is necessary before moving the data any further.
 Often times, the data that needs to be filtered comes in the form of a list. 
 To filter lists in standard python, four options come to mind:
  
@@ -19,10 +20,17 @@ To filter lists in standard python, four options come to mind:
  
  4) Use a generator function
 
-It's important for the engineer to understand the pros 
-and cons of each filtration method. It's also important
-to note that the output type of the result `type(filtered_data)` of Filtration methods 1-3
-is `<class 'list'>`, but type 4 is `<class 'generator'>`.
+This list does not include every single way to filter data, and each method is good for different 
+use cases. This is not a comparison, it is an analysis.   
+
+It's also important to note that the output type of the result `type(filtered_data)` 
+of Filtration methods 1-3 is `<class 'list'>`, but type 4 is `<class 'generator'>`.
+As you will see in later sections, generators are a lazy way to build iterables. 
+They are useful when the fully realized list would not fit in memory,
+or when the cost to calculate each list element is high and you want to do it as late as possible. 
+**They can only be iterated over once.**
+
+
 
 ## Generating the fake data
 Luckily it's quite easy to create and save fake data in standard python. Using the `random` module to 
@@ -83,9 +91,9 @@ in the sequence to be true or not. Using `lambda` allows us to define the functi
 Our lambda simply returns a boolean which depends on if the data point fits the condition.
 We have to wrap the return with `list()` because the type of filter(lambda) is `<class 'filter'>` which is not iterable.
 This filtration method is not great in terms of readability, and it showed the worst performace (by far) according to 
-our metrics when running on the pickled data. I have not found a use case for filter personally, but could see a scenario
-where an engineer may want to keep the original list intact with a filter applied. Our other 3 methods do not form this 
-connection because brand new structures are being created.
+our metrics. I have not found a use case for filter personally, but could see a scenario
+where an engineer may want to keep the original list intact with a filter applied. The other methods 
+in this article do not form this connection because brand new structures are being created.
 
 
 ```python
@@ -201,7 +209,11 @@ if __name__ == "__main__":
 
 ```
 
-#### And the results output:
+#### The benchmarking results:
+<div>
+  <img src={benchmark_chart} alt="diagram" />
+</div>
+
 ```
 conditional_loop filtered 100,000,000 data points in: 6.975962162017822 seconds
 --------------
