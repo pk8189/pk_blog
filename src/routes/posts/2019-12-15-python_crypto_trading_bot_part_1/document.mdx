@@ -4,12 +4,11 @@ import styles from './document.module.css'
 
 # Building a python crypto trading bot for the Gemini Exchange: Part 1
 
-This post is part 1 of a 4 part series about building/using a custom framework made to evaluate and deploy 
-one or many crypto trading stratagies.
+This post is part 1 of a 4 part series about building/using a custom framework made to evaluate and deploy crypto trading stratagies.
 
-Part 1: Designing a python package that can interact with the gemini exchange from scratch with Poetry.
+Part 1: Designing a python package and CLI that can interact with the gemini exchange from scratch with Poetry.
 
-Part 2: Creating a dev user friendly framework for writing custom trading stratagies.
+Part 2: Creating a development user friendly framework for writing custom trading stratagies.
 
 Part 3: Data, model evaluation, and bias. Featuring hints into a strategy backed by a genetic algorithm.
 
@@ -18,30 +17,30 @@ Part 4: Deploying your strategy to production with Docker.
 
 ## Designing a python package that can interact with the gemini exchange from scratch with Poetry.
 
-This post is suited for pythonistas interested in building their own python packages.
-Have an idea for a package that you want to share with the world? Want to improve your app's backend by splitting out 
-some generalizable functionality into a seperate package? If you answered yes to either of those questions keep on reading.
+This post is suited for pythonistas interested in building their own python packages. If you have an idea 
+for a package that you want to share with the world or simply want to improve your app's backend by splitting out 
+some generalizable functionality into a seperate package this post is for you.
 
 
-The package that we will build in this article will contain the following features:
-1. A command line interface that will be available to users upon install. 
+The process outlined in this article will result in a package with the following features:
+1. A command line interface that will be available to users upon install (pip install). 
 2. Commands for interacting with the gemini public and private API.
 3. A secure way for users to store their Gemini credentials while using the package.
 
 ## Initializing the package with Conda and Poetry.
 
-[conda](https://docs.conda.io/en/latest/) is an open source package and virtual environment management system.
-We will leverage conda as our virtual environment.  A virtual environment is a tool that helps to keep dependencies 
-required by different projects separate by creating isolated python virtual environments for them. After installing
-conda, we initalize our virtual environmemt with:
+[Conda](https://docs.conda.io/en/latest/) is an open source package and virtual environment management system. 
+A virtual environment is a tool that helps to maintain separate the 
+dependencies required by different projects by creating isolated python virtual environments for each dependency. 
+After installing conda, we initalize our virtual environmemt with:
 ```bash
 conda create -n gemini_bot python=3.8
 conda activate gemini_bot
 ```
 
-[Poetry](https://python-poetry.org) gives us an open source packaging and dependency management. If the `gemini_bot` 
+[Poetry](https://python-poetry.org) provides open source packaging and dependency management. When the `gemini_bot` 
 virtual environment is active, poetry will detect that conda is being used as the virtual environment manager.
-The pyproject.toml file is the centerpiece of poetry. It let's us specify any package attribute we need.
+The pyproject.toml file is the centerpiece of poetry. In the toml we can specify any package attribute we may need.
 To create a pyproject.toml interactively, use
 ```bash
 poetry init
@@ -54,14 +53,14 @@ poetry add python-dotenv
 poetry add pylint --dev 
 ```
 Pylint isn't necessary for production, so we add the --dev flag.
-If we were installing from the .toml on production, we would use 
+When installing from the .toml for production, we would use 
 ```
 poetry install --no-dev
 ```
 
 ## Building the command line interface
 
-Another useful feature we get from poetry is poetry scripts.
+Poetry scripts are another useful feature available within poetry.
 With scripts, we can name a command that calls a script.
 ```toml
 [tool.poetry.scripts]
@@ -107,9 +106,9 @@ def create_parser(subcommands: list) -> ArgumentParser:
     return parser
 ```
 
-Argparse let's us build a parser with a series of subparsers. `gemini_bot` is our parser, and each specified command 
-in gemini_bot/cli/commands/__init__.py becomes a subparser. Each command contains a name variable, an add_arguments() function and a handle() function.
-`name` specifies the name of the subparser, `add_arguments(parser)` let's us build the structure of the args for the command. `handle(args)` 
+With argparse we can build a parser with a series of subparsers. `gemini_bot` is our parser, and each specified command 
+in gemini_bot/cli/commands/__init__.py is a subparser. Each command contains a name variable, an `add_arguments()` function and a `handle()` function.
+`name` specifies the name of the subparser, `add_arguments(parser)` allows us to build the structure of the args for the command. `handle(args)` 
 is given the args and controls the main actions performed by the command. Below is the beginning of `gemini_bot/cli/commands/public.py` which contains commands
 dealing with the gemini public api. 
 
@@ -155,10 +154,10 @@ $ gemini_bot symbols
 ## Using python-dotenv for a safe experience with api keys
 
 Storing and using sensative api keys like the gemini api key and the gemini secret is a serious matter.
-If a user of gemini_bot pushed these keys to an open repository, anyone could obtain control of the associated account.
+If a gemini_bot user were to push these keys to an open repository, anyone could obtain control of the associated account.
 Gemini bot uses environment variables to get API_KEY and API_SECRET, which give the user access to the private API.
 The user can either export the variables in the shell `export API_KEY=xxxxxx` or use a .env file. By default the package
-looks in $PWD/.env if it exists, to find the environment variables.  Python-dotenv let's us sets this default .env path in one line:
+looks in $PWD/.env if it exists, to find the environment variables.  With `python-dotenv` we can set this default .env path in one line:
 ```
     env_path = Path.cwd() / ".env"
     load_dotenv(dotenv_path=env_path)
@@ -172,11 +171,10 @@ api_key = getenv("API_KEY")
 ## Publishing your package
 
 If you haven't done so already, go register for an account at [pypi](https://pypi.org/account/register/)
-Read the poetry documentation to properly use
 ```
+poetry build
 poetry publish
 ```
-Which will build and publish your to the open source world!
-
+Will build a wheel and publish your to the open source world!
 
 </div>
